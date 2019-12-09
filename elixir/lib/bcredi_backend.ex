@@ -1,5 +1,5 @@
 defmodule BcrediBackend do
-@moduledoc """
+  @moduledoc """
   Test for backend position at Bcredi.
   """
 
@@ -18,6 +18,16 @@ defmodule BcrediBackend do
   """
   @spec solution(list) :: String.t()
   def solution(messages) do
-    # Write your solution here
+    loans = BcrediBackend.Application.QueueProcessor.process(messages)
+
+    unless Enum.empty?(loans.proposals) do
+      Enum.filter(loans.proposals, fn proposal ->
+        BcrediBackend.Domain.Loan.LoanService.is_valid_proposal?(loans, proposal)
+      end)
+      |> Enum.map(fn prop -> prop.proposal_id end)
+      |> Enum.join(",")
+    else
+      ""
+    end
   end
 end

@@ -3,6 +3,7 @@ defmodule BcrediBackendTest do
   doctest BcrediBackend
 
   test "the entire solution" do
+    IO.puts("\n")
     for iteration <- 0..12 do
       test_number =
         iteration
@@ -20,6 +21,7 @@ defmodule BcrediBackendTest do
         |> File.read()
 
       assert BcrediBackend.solution(messages) == output
+      IO.puts("Test #" <> test_number <> " 🍻")
     end
   end
 end
